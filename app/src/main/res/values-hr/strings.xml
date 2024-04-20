@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pomorska bitka</string>
+    <string name="key_btnPlay">Igraj</string>
+    <string name="key_btnOptions">Opcije</string>
+    <string name="key_btnExit">Izađi</string>
+</resources>

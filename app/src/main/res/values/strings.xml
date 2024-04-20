@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Naval Battle</string>
+    <string name="key_btnPlay">Play</string>
+    <string name="key_btnOptions">Options</string>
+    <string name="key_btnExit">Exit</string>
+</resources>
