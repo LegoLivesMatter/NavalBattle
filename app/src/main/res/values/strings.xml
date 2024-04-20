@@ -4,4 +4,7 @@
     <string name="key_btnOptions">Options</string>
     <string name="key_btnExit">Exit</string>
     <string name="key_btnBack">Back</string>
+    <string name="key_txtSelectMode">Select gamemode</string>
+    <string name="key_btnVsComputer">Versus computer</string>
+    <string name="key_btnVsHuman">Versus human</string>
 </resources>

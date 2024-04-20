@@ -5,4 +5,7 @@
     <string name="key_btnOptions">Opcije</string>
     <string name="key_btnExit">Izađi</string>
     <string name="key_btnBack">Nazad</string>
+    <string name="key_txtSelectMode">Odaberi način igre</string>
+    <string name="key_btnVsComputer">Protiv računala</string>
+    <string name="key_btnVsHuman">Protiv čovjeka</string>
 </resources>
