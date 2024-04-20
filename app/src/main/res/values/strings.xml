@@ -3,4 +3,5 @@
     <string name="key_btnPlay">Play</string>
     <string name="key_btnOptions">Options</string>
     <string name="key_btnExit">Exit</string>
+    <string name="key_btnBack">Back</string>
 </resources>

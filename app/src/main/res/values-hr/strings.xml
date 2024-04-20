@@ -4,4 +4,5 @@
     <string name="key_btnPlay">Igraj</string>
     <string name="key_btnOptions">Opcije</string>
     <string name="key_btnExit">Izađi</string>
+    <string name="key_btnBack">Nazad</string>
 </resources>
