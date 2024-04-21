@@ -8,12 +8,14 @@
     tools:context=".GameActivity">
 
     <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/grid"
+        android:id="@+id/gridA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:columnCount="16"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:columnCount="8"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatus"
+        app:layout_constraintEnd_toStartOf="@+id/gridB"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rowCount="8">
@@ -21,12 +23,27 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Player 1: Select "
+        android:text="Player 1: Place your ships "
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:columnCount="8"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gridA"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rowCount="8">
+
+    </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
