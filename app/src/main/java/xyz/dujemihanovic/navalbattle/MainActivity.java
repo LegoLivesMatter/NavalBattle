@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button exit, options;
+    Button exit, options, play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
         options.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setClass(this, OptionsActivity.class);
+            startActivity(intent);
+        });
+
+        play = findViewById(R.id.btnPlay);
+        play.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(this, GameModeActivity.class);
             startActivity(intent);
         });
     }
