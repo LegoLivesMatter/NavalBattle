@@ -13,4 +13,11 @@
     <string name="key_strPlrOneShoot">Player 1: Shoot</string>
     <string name="key_strPlrTwoShoot">Player 2: Shoot</string>
     <string name="key_strPlrOnePlaceShips">Player 1: Place your ships</string>
+    <string name="key_strSunkGunboat">You sunk a gunboat!</string>
+    <string name="key_strSunkDestroyer">You sunk a destroyer!</string>
+    <string name="key_strSunkBattleship">You sunk a battleship!</string>
+    <string name="key_strSunkCarrier">You sunk an aircraft carrier!</string>
+    <string name="key_strCantShoot">Can\'t shoot there!</string>
+    <string name="key_strGameOver">Game Over!</string>
+    <string name="ok" translatable="false">OK</string>
 </resources>

@@ -146,23 +146,23 @@ public class GameActivity extends AppCompatActivity {
                 if (!isB) return;
                 switch (b.shoot(v.getId())) {
                     case CARRIER_DESTROYED:
-                        Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkCarrier), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case BATTLESHIP_DESTROYED:
-                        Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkBattleship), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case DESTROYER_DESTROYED:
-                        Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkDestroyer), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case GUNBOAT_DESTROYED:
-                        Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkGunboat), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case INVALID:
-                        Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strCantShoot), Toast.LENGTH_SHORT).show();
                         return;
                     case MISS:
                         current = ButtonAction.B_SHOOTING;
@@ -177,23 +177,23 @@ public class GameActivity extends AppCompatActivity {
                 if (isB) return;
                 switch (a.shoot(v.getId())) {
                     case CARRIER_DESTROYED:
-                        Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkCarrier), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case BATTLESHIP_DESTROYED:
-                        Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkBattleship), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case DESTROYER_DESTROYED:
-                        Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkDestroyer), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case GUNBOAT_DESTROYED:
-                        Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strSunkGunboat), Toast.LENGTH_SHORT).show();
                         playExp();
                         break;
                     case INVALID:
-                        Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strCantShoot), Toast.LENGTH_SHORT).show();
                         return;
                     case MISS:
                         current = ButtonAction.A_SHOOTING;
@@ -211,12 +211,16 @@ public class GameActivity extends AppCompatActivity {
             build.setTitle("Game over!");
             build.setMessage("Congratulations to B for winning!");
             build.setPositiveButton("OK", (dialog, which) -> finish());
+            build.setTitle(R.string.key_strGameOver);
+            build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         } else if (b.lost()) {
             AlertDialog.Builder build = new AlertDialog.Builder(this);
             build.setTitle("Game over!");
             build.setMessage("Congratulations to A for winning!");
             build.setPositiveButton("OK", (dialog, which) -> finish());
+            build.setTitle(R.string.key_strGameOver);
+            build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         }
     }

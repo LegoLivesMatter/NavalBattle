@@ -14,4 +14,10 @@
     <string name="key_strPlrOneShoot">Igrač 1: Pucaj</string>
     <string name="key_strPlrTwoShoot">Igrač 2: Pucaj</string>
     <string name="key_strPlrOnePlaceShips">Igrač 1: Postavi brodove</string>
+    <string name="key_strSunkGunboat">Potopio si topovnjaču!</string>
+    <string name="key_strSunkDestroyer">Potopio si razarač!</string>
+    <string name="key_strSunkBattleship">Potopio si bojni brod!</string>
+    <string name="key_strSunkCarrier">Potopio si nosač zrakoplova!</string>
+    <string name="key_strCantShoot">Ne možes pucati tu!</string>
+    <string name="key_strGameOver">Igra je gotova!</string>
 </resources>
