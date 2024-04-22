@@ -3,6 +3,7 @@ package xyz.dujemihanovic.navalbattle;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -18,8 +19,8 @@ public class GameActivity extends AppCompatActivity {
     TextView status;
     Player a, b;
     ButtonAction current;
+    MediaPlayer plr;
 
-    @SuppressLint("ResourceType")
     private void beginPlaceShipsA() {
         current = ButtonAction.A_PLACING;
     }
@@ -71,6 +72,44 @@ public class GameActivity extends AppCompatActivity {
         beginPlaceShipsA();
     }
 
+    private void playExp() {
+        if (plr == null) {
+            plr = MediaPlayer.create(this, R.raw.explosion);
+            plr.setOnCompletionListener(mp -> {
+                plr.release();
+                plr = null;
+            });
+            plr.start();
+        } else {
+            plr.release();
+            plr = MediaPlayer.create(this, R.raw.explosion);
+            plr.setOnCompletionListener(mp -> {
+                plr.release();
+                plr = null;
+            });
+            plr.start();
+        }
+    }
+
+    private void playSplash() {
+        if (plr == null) {
+            plr = MediaPlayer.create(this, R.raw.splash);
+            plr.setOnCompletionListener(mp -> {
+                plr.release();
+                plr = null;
+            });
+            plr.start();
+        } else {
+            plr.release();
+            plr = MediaPlayer.create(this, R.raw.splash);
+            plr.setOnCompletionListener(mp -> {
+                plr.release();
+                plr = null;
+            });
+            plr.start();
+        }
+    }
+
     // Most actual game logic is here (and in Player)
     private void btnOnClick(View v) {
         @SuppressLint("ResourceType") final boolean isB = v.getId() > 63;
@@ -108,15 +147,19 @@ public class GameActivity extends AppCompatActivity {
                 switch (b.shoot(v.getId())) {
                     case CARRIER_DESTROYED:
                         Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case BATTLESHIP_DESTROYED:
                         Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case DESTROYER_DESTROYED:
                         Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case GUNBOAT_DESTROYED:
                         Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case INVALID:
                         Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
@@ -124,7 +167,10 @@ public class GameActivity extends AppCompatActivity {
                     case MISS:
                         current = ButtonAction.B_SHOOTING;
                         status.setText("Player 2: Shoot");
+                        playSplash();
                         return;
+                    default:
+                        playExp();
                 }
                 break;
             case B_SHOOTING:
@@ -132,15 +178,19 @@ public class GameActivity extends AppCompatActivity {
                 switch (a.shoot(v.getId())) {
                     case CARRIER_DESTROYED:
                         Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case BATTLESHIP_DESTROYED:
                         Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case DESTROYER_DESTROYED:
                         Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case GUNBOAT_DESTROYED:
                         Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        playExp();
                         break;
                     case INVALID:
                         Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
@@ -148,7 +198,10 @@ public class GameActivity extends AppCompatActivity {
                     case MISS:
                         current = ButtonAction.A_SHOOTING;
                         status.setText("Player 1: Shoot");
+                        playSplash();
                         return;
+                    default:
+                        playExp();
                 }
                 break;
         }
