@@ -36,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_game);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -74,11 +74,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameLoop() {
-        /*
-        while (!a.lost() && !b.lost()) {
+        do {
 
-        }
-         */
+        } while (!a.lost() && !b.lost());
 
         AlertDialog.Builder build = new AlertDialog.Builder(this);
         build.setTitle("Game over!");
