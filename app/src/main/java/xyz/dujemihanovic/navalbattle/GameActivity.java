@@ -44,8 +44,8 @@ public class GameActivity extends AppCompatActivity {
 
         current = ButtonAction.NOTHING;
 
-        a = new Player(findViewById(R.id.gridA));
-        b = new Player(findViewById(R.id.gridB));
+        a = new Player(findViewById(R.id.gridA), false);
+        b = new Player(findViewById(R.id.gridB), true);
 
         rand = new Random();
 

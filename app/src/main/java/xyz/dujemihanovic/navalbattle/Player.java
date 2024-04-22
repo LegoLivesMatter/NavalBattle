@@ -11,14 +11,21 @@ public class Player {
     private int carrierLeft;
     private int shipsPlaced;
     private final GridLayout grid;
+    private final char[] board;
+    private final boolean isB;
 
-    public Player(GridLayout grid) {
+    public Player(GridLayout grid, boolean isB) {
         gunboatLeft = 2;
         destroyerLeft = 3;
         battleshipLeft = 4;
         carrierLeft = 5;
         shipsPlaced = 0;
+        board = new char[64];
+        for (int i = 0; i < 64; i++) {
+            board[i] = 'B';
+        }
         this.grid = grid;
+        this.isB = isB;
     }
 
     protected boolean lost() {
@@ -66,31 +73,38 @@ public class Player {
      * @return HitResult.HIT if hit, destruction, MISS if miss, INVALID if tried to shoot at already shot field
      */
     protected HitResult shoot(int i) {
-        TextView hit = grid.findViewById(i);
+        TextView v = grid.findViewById(i);
 
-        switch (hit.getText().toString()) {
-            case "1":
+        if (i >= 64) i -= 64;
+
+        switch (board[i]) {
+            case '1':
                 hitGunboat();
-                hit.setText("D");
+                board[i] = 'D';
+                v.setText("D");
                 if (getGunboatLeft() == 0) return HitResult.GUNBOAT_DESTROYED;
                 return HitResult.HIT;
-            case "2":
+            case '2':
                 hitDestroyer();
-                hit.setText("D");
+                board[i] = 'D';
+                v.setText("D");
                 if (getDestroyerLeft() == 0) return HitResult.DESTROYER_DESTROYED;
                 return HitResult.HIT;
-            case "3":
+            case '3':
                 hitBattleship();
-                hit.setText("D");
+                board[i] = 'D';
+                v.setText("D");
                 if (getBattleshipLeft() == 0) return HitResult.BATTLESHIP_DESTROYED;
                 return HitResult.HIT;
-            case "4":
+            case '4':
                 hitCarrier();
-                hit.setText("D");
+                board[i] = 'D';
+                v.setText("D");
                 if (getCarrierLeft() == 0) return HitResult.CARRIER_DESTROYED;
                 return HitResult.HIT;
-            case "B":
-                hit.setText("M");
+            case 'B':
+                board[i] = 'M';
+                v.setText("M");
                 return HitResult.MISS;
             default:
                 return HitResult.INVALID;
@@ -107,71 +121,90 @@ public class Player {
     protected boolean placeShip(int i) {
         switch (getShipsPlaced()) {
             case 0: {
+                if (isB) i -= 64;
+
                 if (i / 8 < (i + 1) / 8)
                     return true;
 
-                TextView one = grid.findViewById(i);
-                TextView two = grid.findViewById(i + 1);
-
-                if (one.getText() != "B" || two.getText() != "B")
+                if (board[i] != 'B' || board[i+1] != 'B')
                     return true;
 
-                one.setText("1");
-                two.setText("1");
+                board[i] = '1';
+                board[i+1] = '1';
+
+                if (isB) i += 64;
+                for (int j = i; j < i+2; j++) {
+                    TextView v = grid.findViewById(j);
+                    v.setText("1");
+                }
                 break;
             }
             case 1: {
+                if (isB) i -= 64;
+
                 if (i / 8 < (i + 2) / 8)
                     return true;
 
-                TextView one = grid.findViewById(i);
-                TextView two = grid.findViewById(i + 1);
-                TextView three = grid.findViewById(i + 2);
-
-                if (one.getText() != "B" || two.getText() != "B" || three.getText() != "B")
+                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B')
                     return true;
 
-                one.setText("2");
-                two.setText("2");
-                three.setText("2");
+                board[i] = '2';
+                board[i+1] = '2';
+                board[i+2] = '2';
+
+                if (isB) i += 64;
+                for (int j = i; j < i+3; j++) {
+                    TextView v = grid.findViewById(j);
+                    v.setText("2");
+                }
                 break;
             }
             case 2: {
+                if (isB) i -= 64;
+
                 if (i / 8 < (i + 3) / 8)
                     return true;
 
-                TextView one = grid.findViewById(i);
-                TextView two = grid.findViewById(i+1);
-                TextView three = grid.findViewById(i+2);
-                TextView four = grid.findViewById(i+3);
-
-                if (one.getText() != "B" || two.getText() != "B" || three.getText() != "B" || four.getText() != "B")
+                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B')
                     return true;
 
-                one.setText("3");
-                two.setText("3");
-                three.setText("3");
-                four.setText("3");
+                board[i] = '3';
+                board[i+1] = '3';
+                board[i+2] = '3';
+                board[i+3] = '3';
+
+                if (isB) i += 64;
+                for (int j = i; j < i+4; j++) {
+                    TextView v = grid.findViewById(j);
+                    v.setText("3");
+                }
                 break;
             }
             case 3: {
+                if (i >= 64) i -= 64;
+
                 if (i / 8 < (i + 4) / 8)
                     return true;
 
-                TextView one = grid.findViewById(i);
-                TextView two = grid.findViewById(i+1);
-                TextView three = grid.findViewById(i+2);
-                TextView four = grid.findViewById(i+3);
-                TextView five = grid.findViewById(i+4);
-
-                if (one.getText() != "B" || two.getText() != "B" || three.getText() != "B" || four.getText() != "B" || five.getText() != "B")
+                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B' || board[i+4] != 'B')
                     return true;
 
-                one.setText("4");
-                two.setText("4");
-                three.setText("4");
-                four.setText("4");
-                five.setText("4");
+                board[i] = '4';
+                board[i+1] = '4';
+                board[i+2] = '4';
+                board[i+3] = '4';
+                board[i+4] = '4';
+
+                if (isB)
+                    for (int j = 64; j < 128; j++) {
+                        TextView v = grid.findViewById(j);
+                        v.setText("?");
+                    }
+                else
+                    for (int j = 0; j < 64; j++) {
+                        TextView v = grid.findViewById(j);
+                        v.setText("?");
+                    }
                 break;
             }
             default:
