@@ -1,0 +1,7 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/background">
+        <bitmap
+            android:src="@drawable/battleship"
+            android:alpha="0.2" />
+    </item>
+</layer-list>

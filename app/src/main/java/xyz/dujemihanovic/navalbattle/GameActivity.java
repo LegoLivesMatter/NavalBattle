@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,8 @@ public class GameActivity extends AppCompatActivity {
             tv.setText("B");
             tv.setWidth(96);
             tv.setHeight(96);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setGravity(Gravity.CENTER);
             tv.setOnClickListener(this::btnOnClick);
             a.addTv(tv);
         }
@@ -69,6 +72,8 @@ public class GameActivity extends AppCompatActivity {
             tv.setText("B");
             tv.setWidth(96);
             tv.setHeight(96);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setGravity(Gravity.CENTER);
             tv.setOnClickListener(this::btnOnClick);
             b.addTv(tv);
         }
@@ -187,10 +192,10 @@ public class GameActivity extends AppCompatActivity {
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
 
-                    while (plr.isPlaying());
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
+                        while (plr.isPlaying());
                         switch (a.shoot(rand.nextInt(64))) {
                             case MISS:
                                 keepShooting = false;
