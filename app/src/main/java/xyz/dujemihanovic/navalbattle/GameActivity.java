@@ -84,39 +84,31 @@ public class GameActivity extends AppCompatActivity {
     private void playExp() {
         if (plr == null) {
             plr = MediaPlayer.create(this, R.raw.explosion);
-            plr.setOnCompletionListener(mp -> {
-                plr.release();
-                plr = null;
-            });
-            plr.start();
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.explosion);
-            plr.setOnCompletionListener(mp -> {
-                plr.release();
-                plr = null;
-            });
-            plr.start();
         }
+        plr.setOnCompletionListener(mp -> {
+            plr.stop();
+            plr.release();
+            plr = null;
+        });
+        plr.start();
     }
 
     private void playSplash() {
         if (plr == null) {
             plr = MediaPlayer.create(this, R.raw.splash);
-            plr.setOnCompletionListener(mp -> {
-                plr.release();
-                plr = null;
-            });
-            plr.start();
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.splash);
-            plr.setOnCompletionListener(mp -> {
-                plr.release();
-                plr = null;
-            });
-            plr.start();
         }
+        plr.setOnCompletionListener(mp -> {
+            plr.stop();
+            plr.release();
+            plr = null;
+        });
+        plr.start();
     }
 
     // Most actual game logic is here (and in Player)
@@ -189,39 +181,51 @@ public class GameActivity extends AppCompatActivity {
                         playExp();
                 }
 
+                // bot logic is here
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
+                    int next = rand.nextInt(64);
+                    // 0 - not determined, -1 - left, 1 - right
+                    int direction = 0;
 
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
-                        while (plr.isPlaying());
-                        switch (a.shoot(rand.nextInt(64))) {
+                        if (plr != null)
+                            while (plr.isPlaying());
+
+                        switch (a.shoot(next)) {
                             case MISS:
                                 keepShooting = false;
                                 playSplash();
                                 break;
                             case INVALID:
+                                next = rand.nextInt(64);
                                 break;
                             case CARRIER_DESTROYED:
+                                next = rand.nextInt(64);
                                 Toast.makeText(this, getString(R.string.key_strCarrierSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case BATTLESHIP_DESTROYED:
+                                next = rand.nextInt(64);
                                 Toast.makeText(this, getString(R.string.key_strBattleshipSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case DESTROYER_DESTROYED:
+                                next = rand.nextInt(64);
                                 Toast.makeText(this, getString(R.string.key_strDestroyerSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case GUNBOAT_DESTROYED:
+                                next = rand.nextInt(64);
                                 Toast.makeText(this, getString(R.string.key_strGunboatSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             default:
+                                if (direction == 0) direction = rand.nextInt(2) == 0 ? -1 : 1;
+                                if (next > 0 && next < 63) next += direction;
                                 playExp();
-                                
                         }
                     }
                     status.setText(getString(R.string.key_strPlrOneShoot));
