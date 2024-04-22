@@ -15,15 +15,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Random;
+
 public class GameActivity extends AppCompatActivity {
     TextView status;
     Player a, b;
     ButtonAction current;
     MediaPlayer plr;
-
-    private void beginPlaceShipsA() {
-        current = ButtonAction.A_PLACING;
-    }
+    boolean vsHuman;
+    Random rand;
 
     private void beginPlaceShipsB() {
         current = ButtonAction.B_PLACING;
@@ -47,6 +47,10 @@ public class GameActivity extends AppCompatActivity {
         a = new Player(findViewById(R.id.gridA));
         b = new Player(findViewById(R.id.gridB));
 
+        rand = new Random();
+
+        vsHuman = getIntent().getBooleanExtra("human", false);
+
         // create board dynamically with GridLayout, perhaps can be replaced with RecyclerView?
         status = findViewById(R.id.tvStatus);
 
@@ -69,7 +73,7 @@ public class GameActivity extends AppCompatActivity {
             b.addTv(tv);
         }
 
-        beginPlaceShipsA();
+        current = ButtonAction.A_PLACING;
     }
 
     private void playExp() {
@@ -125,7 +129,14 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                if (a.getShipsPlaced() == 4) beginPlaceShipsB();
+                if (a.getShipsPlaced() == 4) {
+                    beginPlaceShipsB();
+                    if (!vsHuman) {
+                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(64) + 64);
+                        current = ButtonAction.A_SHOOTING;
+                        status.setText(R.string.key_strPlrOneShoot);
+                    }
+                }
                 return;
             case B_PLACING:
                 if (!isB) {
@@ -172,6 +183,40 @@ public class GameActivity extends AppCompatActivity {
                     default:
                         playExp();
                 }
+
+                if (!vsHuman && current == ButtonAction.B_SHOOTING) {
+                    boolean keepShooting = true;
+
+                    current = ButtonAction.A_SHOOTING;
+                    while (keepShooting) {
+                        switch (a.shoot(rand.nextInt(64))) {
+                            case MISS:
+                                keepShooting = false;
+                                playSplash();
+                                break;
+                            case INVALID:
+                                break;
+                            case CARRIER_DESTROYED:
+                                Toast.makeText(this, getString(R.string.key_strCarrierSunk), Toast.LENGTH_SHORT).show();
+                                playExp();
+                                break;
+                            case BATTLESHIP_DESTROYED:
+                                Toast.makeText(this, getString(R.string.key_strBattleshipSunk), Toast.LENGTH_SHORT).show();
+                                playExp();
+                                break;
+                            case DESTROYER_DESTROYED:
+                                Toast.makeText(this, getString(R.string.key_strDestroyerSunk), Toast.LENGTH_SHORT).show();
+                                playExp();
+                                break;
+                            case GUNBOAT_DESTROYED:
+                                Toast.makeText(this, getString(R.string.key_strGunboatSunk), Toast.LENGTH_SHORT).show();
+                                playExp();
+                                break;
+                            default:
+                                playExp();
+                        }
+                    }
+                }
                 break;
             case B_SHOOTING:
                 if (isB) return;
@@ -208,18 +253,14 @@ public class GameActivity extends AppCompatActivity {
 
         if (a.lost()) {
             AlertDialog.Builder build = new AlertDialog.Builder(this);
-            build.setTitle("Game over!");
-            build.setMessage("Congratulations to B for winning!");
-            build.setPositiveButton("OK", (dialog, which) -> finish());
             build.setTitle(R.string.key_strGameOver);
+            build.setMessage(vsHuman ? R.string.key_strCongratsTwo : R.string.key_strComputerWon);
             build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         } else if (b.lost()) {
             AlertDialog.Builder build = new AlertDialog.Builder(this);
-            build.setTitle("Game over!");
-            build.setMessage("Congratulations to A for winning!");
-            build.setPositiveButton("OK", (dialog, which) -> finish());
             build.setTitle(R.string.key_strGameOver);
+            build.setMessage(vsHuman ? R.string.key_strCongratsOne : R.string.key_strHumanWon);
             build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         }

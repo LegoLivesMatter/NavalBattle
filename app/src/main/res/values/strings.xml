@@ -17,7 +17,15 @@
     <string name="key_strSunkDestroyer">You sunk a destroyer!</string>
     <string name="key_strSunkBattleship">You sunk a battleship!</string>
     <string name="key_strSunkCarrier">You sunk an aircraft carrier!</string>
+    <string name="key_strGunboatSunk">Your gunboat was sunk!</string>
+    <string name="key_strDestroyerSunk">Your destroyer was sunk!</string>
+    <string name="key_strBattleshipSunk">Your battleship was sunk!</string>
+    <string name="key_strCarrierSunk">Your carrier was sunk!</string>
     <string name="key_strCantShoot">Can\'t shoot there!</string>
     <string name="key_strGameOver">Game Over!</string>
+    <string name="key_strCongratsOne">Congratulations to player 1 for winning!</string>
+    <string name="key_strCongratsTwo">Congratulations to player 2 for winning!</string>
+    <string name="key_strHumanWon">You defeated the computer, congratulations!</string>
+    <string name="key_strComputerWon">The computer defeat you, better luck next time!</string>
     <string name="ok" translatable="false">OK</string>
 </resources>

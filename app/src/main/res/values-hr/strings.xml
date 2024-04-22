@@ -18,6 +18,14 @@
     <string name="key_strSunkDestroyer">Potopio si razarač!</string>
     <string name="key_strSunkBattleship">Potopio si bojni brod!</string>
     <string name="key_strSunkCarrier">Potopio si nosač zrakoplova!</string>
+    <string name="key_strGunboatSunk">Tvoja topovnjača je potopljena!</string>
+    <string name="key_strDestroyerSunk">Tvoj razarač je potopljen!</string>
+    <string name="key_strBattleshipSunk">Tvoj bojni brod je potopljen!</string>
+    <string name="key_strCarrierSunk">Tvoj nosač zrakoplova je potopljen!</string>
     <string name="key_strCantShoot">Ne možes pucati tu!</string>
     <string name="key_strGameOver">Igra je gotova!</string>
+    <string name="key_strCongratsOne">Čestitke igraču 1 na pobjedi!</string>
+    <string name="key_strCongratsTwo">Čestitke igraču 2 na pobjedi!</string>
+    <string name="key_strHumanWon">Porazio si računalo, čestitke!</string>
+    <string name="key_strComputerWon">Računalo te porazilo, više sreće drugi put!</string>
 </resources>
