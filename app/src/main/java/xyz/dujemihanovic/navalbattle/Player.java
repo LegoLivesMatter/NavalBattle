@@ -99,6 +99,11 @@ public class Player {
 
     protected void addTv(TextView tv) { grid.addView(tv); }
 
+    /**
+     * Place a ship at a field.
+     * @param i The ID of the TextView
+     * @return true if the ship was placed, false otherwise
+     */
     protected boolean placeShip(int i) {
         switch (getShipsPlaced()) {
             case 0: {
