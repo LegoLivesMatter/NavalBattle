@@ -84,7 +84,6 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
-            while (plr.isPlaying());
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.explosion);
@@ -93,7 +92,6 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
-            while (plr.isPlaying());
         }
     }
 
@@ -105,7 +103,6 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
-            while (plr.isPlaying());
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.splash);
@@ -114,7 +111,6 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
-            while (plr.isPlaying());
         }
     }
 
@@ -191,6 +187,7 @@ public class GameActivity extends AppCompatActivity {
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
 
+                    while (plr.isPlaying());
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
