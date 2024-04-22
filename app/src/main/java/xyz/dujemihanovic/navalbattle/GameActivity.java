@@ -84,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
+            while (plr.isPlaying());
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.explosion);
@@ -92,6 +93,7 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
+            while (plr.isPlaying());
         }
     }
 
@@ -103,6 +105,7 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
+            while (plr.isPlaying());
         } else {
             plr.release();
             plr = MediaPlayer.create(this, R.raw.splash);
@@ -111,6 +114,7 @@ public class GameActivity extends AppCompatActivity {
                 plr = null;
             });
             plr.start();
+            while (plr.isPlaying());
         }
     }
 
@@ -179,7 +183,7 @@ public class GameActivity extends AppCompatActivity {
                         current = ButtonAction.B_SHOOTING;
                         status.setText(R.string.key_strPlrTwoShoot);
                         playSplash();
-                        return;
+                        break;
                     default:
                         playExp();
                 }
@@ -188,6 +192,7 @@ public class GameActivity extends AppCompatActivity {
                     boolean keepShooting = true;
 
                     current = ButtonAction.A_SHOOTING;
+                    status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
                         switch (a.shoot(rand.nextInt(64))) {
                             case MISS:
@@ -214,8 +219,10 @@ public class GameActivity extends AppCompatActivity {
                                 break;
                             default:
                                 playExp();
+                                
                         }
                     }
+                    status.setText(getString(R.string.key_strPlrOneShoot));
                 }
                 break;
             case B_SHOOTING:
