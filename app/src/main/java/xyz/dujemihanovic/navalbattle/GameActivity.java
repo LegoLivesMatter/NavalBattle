@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void beginPlaceShipsB() {
         current = ButtonAction.B_PLACING;
-        status.setText("Player 2: Place your ships");
+        status.setText(R.string.key_strPlrTwoPlaceShips);
     }
 
     @Override
@@ -117,29 +117,29 @@ public class GameActivity extends AppCompatActivity {
         switch (current) {
             case A_PLACING:
                 if (isB) {
-                    Toast.makeText(this, "You must place the ship on your own board!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.key_strMustPlaceShipOnOwnBoard), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (a.getShipsPlaced() < 4)
                     if (a.placeShip(v.getId())) {
-                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
                         return;
                     }
                 if (a.getShipsPlaced() == 4) beginPlaceShipsB();
                 return;
             case B_PLACING:
                 if (!isB) {
-                    Toast.makeText(this, "You must place the ship on your own board!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.key_strMustPlaceShipOnOwnBoard), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (b.getShipsPlaced() < 4)
                     if (b.placeShip(v.getId())) {
-                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
                         return;
                     }
                 if (b.getShipsPlaced() == 4) {
                     current = ButtonAction.A_SHOOTING;
-                    status.setText("Player 1: Shoot");
+                    status.setText(getString(R.string.key_strPlrOneShoot));
                 }
                 return;
             case A_SHOOTING:
@@ -166,7 +166,7 @@ public class GameActivity extends AppCompatActivity {
                         return;
                     case MISS:
                         current = ButtonAction.B_SHOOTING;
-                        status.setText("Player 2: Shoot");
+                        status.setText(R.string.key_strPlrTwoShoot);
                         playSplash();
                         return;
                     default:
@@ -197,7 +197,7 @@ public class GameActivity extends AppCompatActivity {
                         return;
                     case MISS:
                         current = ButtonAction.A_SHOOTING;
-                        status.setText("Player 1: Shoot");
+                        status.setText(getString(R.string.key_strPlrOneShoot));
                         playSplash();
                         return;
                     default:

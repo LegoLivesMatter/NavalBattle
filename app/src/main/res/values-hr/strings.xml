@@ -8,4 +8,10 @@
     <string name="key_txtSelectMode">Odaberi način igre</string>
     <string name="key_btnVsComputer">Protiv računala</string>
     <string name="key_btnVsHuman">Protiv čovjeka</string>
+    <string name="key_strPlrTwoPlaceShips">Igrač 2: Postavi brodove</string>
+    <string name="key_strMustPlaceShipOnOwnBoard">Moraš postaviti brodove na vlastitoj ploči!</string>
+    <string name="key_strCantPlaceThere">Ne možeš postaviti brod tu!</string>
+    <string name="key_strPlrOneShoot">Igrač 1: Pucaj</string>
+    <string name="key_strPlrTwoShoot">Igrač 2: Pucaj</string>
+    <string name="key_strPlrOnePlaceShips">Igrač 1: Postavi brodove</string>
 </resources>

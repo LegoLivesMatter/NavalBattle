@@ -7,4 +7,10 @@
     <string name="key_txtSelectMode">Select gamemode</string>
     <string name="key_btnVsComputer">Versus computer</string>
     <string name="key_btnVsHuman">Versus human</string>
+    <string name="key_strPlrTwoPlaceShips">Player 2: Place your ships</string>
+    <string name="key_strMustPlaceShipOnOwnBoard">You must place the ship on your own board!</string>
+    <string name="key_strCantPlaceThere">Can\'t place ship there!</string>
+    <string name="key_strPlrOneShoot">Player 1: Shoot</string>
+    <string name="key_strPlrTwoShoot">Player 2: Shoot</string>
+    <string name="key_strPlrOnePlaceShips">Player 1: Place your ships</string>
 </resources>
