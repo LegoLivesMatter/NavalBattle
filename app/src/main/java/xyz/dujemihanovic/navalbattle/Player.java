@@ -13,6 +13,7 @@ public class Player {
     private final GridLayout grid;
     private final char[] board;
     private final boolean isB;
+    private static final int gridSize = GameActivity.gridSize;
 
     public Player(GridLayout grid, boolean isB) {
         gunboatLeft = 2;
@@ -20,8 +21,8 @@ public class Player {
         battleshipLeft = 4;
         carrierLeft = 5;
         shipsPlaced = 0;
-        board = new char[64];
-        for (int i = 0; i < 64; i++) {
+        board = new char[gridSize*gridSize];
+        for (int i = 0; i < gridSize*gridSize; i++) {
             board[i] = 'B';
         }
         this.grid = grid;
@@ -75,7 +76,7 @@ public class Player {
     protected HitResult shoot(int i) {
         TextView v = grid.findViewById(i);
 
-        if (i >= 64) i -= 64;
+        if (i >= gridSize*gridSize) i -= gridSize*gridSize;
 
         switch (board[i]) {
             case '1':
@@ -121,9 +122,9 @@ public class Player {
     protected boolean placeShip(int i) {
         switch (getShipsPlaced()) {
             case 0: {
-                if (isB) i -= 64;
+                if (isB) i -= gridSize*gridSize;
 
-                if (i / 8 < (i + 1) / 8)
+                if (i / gridSize < (i + 1) / gridSize)
                     return true;
 
                 if (board[i] != 'B' || board[i+1] != 'B')
@@ -132,7 +133,7 @@ public class Player {
                 board[i] = '1';
                 board[i+1] = '1';
 
-                if (isB) i += 64;
+                if (isB) i += gridSize*gridSize;
                 for (int j = i; j < i+2; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("1");
@@ -140,9 +141,9 @@ public class Player {
                 break;
             }
             case 1: {
-                if (isB) i -= 64;
+                if (isB) i -= gridSize*gridSize;
 
-                if (i / 8 < (i + 2) / 8)
+                if (i / gridSize < (i + 2) / gridSize)
                     return true;
 
                 if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B')
@@ -152,7 +153,7 @@ public class Player {
                 board[i+1] = '2';
                 board[i+2] = '2';
 
-                if (isB) i += 64;
+                if (isB) i += gridSize*gridSize;
                 for (int j = i; j < i+3; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("2");
@@ -160,9 +161,9 @@ public class Player {
                 break;
             }
             case 2: {
-                if (isB) i -= 64;
+                if (isB) i -= gridSize*gridSize;
 
-                if (i / 8 < (i + 3) / 8)
+                if (i / gridSize < (i + 3) / gridSize)
                     return true;
 
                 if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B')
@@ -173,7 +174,7 @@ public class Player {
                 board[i+2] = '3';
                 board[i+3] = '3';
 
-                if (isB) i += 64;
+                if (isB) i += gridSize*gridSize;
                 for (int j = i; j < i+4; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("3");
@@ -181,9 +182,9 @@ public class Player {
                 break;
             }
             case 3: {
-                if (i >= 64) i -= 64;
+                if (isB) i -= gridSize*gridSize;
 
-                if (i / 8 < (i + 4) / 8)
+                if (i / gridSize < (i + 4) / gridSize)
                     return true;
 
                 if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B' || board[i+4] != 'B')
@@ -196,12 +197,12 @@ public class Player {
                 board[i+4] = '4';
 
                 if (isB)
-                    for (int j = 64; j < 128; j++) {
+                    for (int j = gridSize*gridSize; j < 2*gridSize*gridSize; j++) {
                         TextView v = grid.findViewById(j);
                         v.setText("?");
                     }
                 else
-                    for (int j = 0; j < 64; j++) {
+                    for (int j = 0; j < gridSize*gridSize; j++) {
                         TextView v = grid.findViewById(j);
                         v.setText("?");
                     }
