@@ -26,6 +26,8 @@ public class Player {
             board[i] = 'B';
         }
         this.grid = grid;
+        this.grid.setColumnCount(gridSize);
+        this.grid.setRowCount(gridSize);
         this.isB = isB;
     }
 
