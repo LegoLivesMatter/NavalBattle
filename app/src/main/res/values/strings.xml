@@ -28,4 +28,5 @@
     <string name="key_strHumanWon">You defeated the computer, congratulations!</string>
     <string name="key_strComputerWon">The computer defeat you, better luck next time!</string>
     <string name="ok" translatable="false">OK</string>
+    <string name="key_strUnderConstruction">Nothing to see here for now...</string>
 </resources>
