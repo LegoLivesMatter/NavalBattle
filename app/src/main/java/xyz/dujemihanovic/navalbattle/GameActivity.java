@@ -1,6 +1,7 @@
 package xyz.dujemihanovic.navalbattle;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,8 +22,6 @@ public class GameActivity extends AppCompatActivity {
     @SuppressLint("ResourceType")
     private void beginPlaceShipsA() {
         current = ButtonAction.A_PLACING;
-        status.setText("Player 1: Place your ships");
-        status.setVisibility(View.VISIBLE);
     }
 
     private void beginPlaceShipsB() {
@@ -73,42 +71,100 @@ public class GameActivity extends AppCompatActivity {
         beginPlaceShipsA();
     }
 
-    private void gameLoop() {
-        do {
-
-        } while (!a.lost() && !b.lost());
-
-        AlertDialog.Builder build = new AlertDialog.Builder(this);
-        build.setTitle("Game over!");
-        if (a.lost())
-            build.setMessage("B won, congratulations!");
-        else
-            build.setMessage("A won, congratulations!");
-        build.setPositiveButton("OK", (dialog, which) -> finish());
-        build.show();
-    }
-
+    // Most actual game logic is here (and in Player)
     private void btnOnClick(View v) {
-        @SuppressLint("ResourceType") boolean isB = v.getId() > 63;
+        @SuppressLint("ResourceType") final boolean isB = v.getId() > 63;
 
         switch (current) {
             case A_PLACING:
-                if (isB) return;
-                if (a.getShipsPlaced() < 4) {
-                    if (a.placeShip(v.getId()))
-                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                if (isB) {
+                    Toast.makeText(this, "You must place the ship on your own board!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else beginPlaceShipsB();
-                break;
-
+                if (a.getShipsPlaced() < 4)
+                    if (a.placeShip(v.getId())) {
+                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                if (a.getShipsPlaced() == 4) beginPlaceShipsB();
+                return;
             case B_PLACING:
-                if (!isB) return;
-                if (b.getShipsPlaced() < 4) {
-                    if (b.placeShip(v.getId()))
-                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                if (!isB) {
+                    Toast.makeText(this, "You must place the ship on your own board!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else gameLoop();
+                if (b.getShipsPlaced() < 4)
+                    if (b.placeShip(v.getId())) {
+                        Toast.makeText(this, "Can't place ship there!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                if (b.getShipsPlaced() == 4) {
+                    current = ButtonAction.A_SHOOTING;
+                    status.setText("Player 1: Shoot");
+                }
+                return;
+            case A_SHOOTING:
+                if (!isB) return;
+                switch (b.shoot(v.getId())) {
+                    case CARRIER_DESTROYED:
+                        Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case BATTLESHIP_DESTROYED:
+                        Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case DESTROYER_DESTROYED:
+                        Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case GUNBOAT_DESTROYED:
+                        Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case INVALID:
+                        Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
+                        return;
+                    case MISS:
+                        current = ButtonAction.B_SHOOTING;
+                        status.setText("Player 2: Shoot");
+                        return;
+                }
                 break;
+            case B_SHOOTING:
+                if (isB) return;
+                switch (a.shoot(v.getId())) {
+                    case CARRIER_DESTROYED:
+                        Toast.makeText(this, "You sunk a carrier!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case BATTLESHIP_DESTROYED:
+                        Toast.makeText(this, "You sunk a battleship!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case DESTROYER_DESTROYED:
+                        Toast.makeText(this, "You sunk a destroyer!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case GUNBOAT_DESTROYED:
+                        Toast.makeText(this, "You sunk a gunboat!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case INVALID:
+                        Toast.makeText(this, "Can't shoot there!", Toast.LENGTH_SHORT).show();
+                        return;
+                    case MISS:
+                        current = ButtonAction.A_SHOOTING;
+                        status.setText("Player 1: Shoot");
+                        return;
+                }
+                break;
+        }
+
+        if (a.lost()) {
+            AlertDialog.Builder build = new AlertDialog.Builder(this);
+            build.setTitle("Game over!");
+            build.setMessage("Congratulations to B for winning!");
+            build.setPositiveButton("OK", (dialog, which) -> finish());
+            build.show();
+        } else if (b.lost()) {
+            AlertDialog.Builder build = new AlertDialog.Builder(this);
+            build.setTitle("Game over!");
+            build.setMessage("Congratulations to A for winning!");
+            build.setPositiveButton("OK", (dialog, which) -> finish());
+            build.show();
         }
     }
 }
