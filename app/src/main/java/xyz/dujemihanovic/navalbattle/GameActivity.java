@@ -1,6 +1,5 @@
 package xyz.dujemihanovic.navalbattle;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -65,6 +64,7 @@ public class GameActivity extends AppCompatActivity {
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setGravity(Gravity.CENTER);
             tv.setOnClickListener(this::btnOnClick);
+            tv.setOnLongClickListener(this::btnOnLongClick);
             a.addTv(tv);
         }
         for (int i = gridSize*gridSize; i < 2*gridSize*gridSize; i++) {
@@ -76,6 +76,7 @@ public class GameActivity extends AppCompatActivity {
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setGravity(Gravity.CENTER);
             tv.setOnClickListener(this::btnOnClick);
+            tv.setOnLongClickListener(this::btnOnLongClick);
             b.addTv(tv);
         }
 
@@ -112,9 +113,54 @@ public class GameActivity extends AppCompatActivity {
         plr.start();
     }
 
+    private boolean btnOnLongClick(View v) {
+        final boolean isB = ((View) (v.getParent())).getId() == R.id.gridB;
+
+        switch (current) {
+            case A_PLACING:
+                if (isB) {
+                    Toast.makeText(this, getString(R.string.key_strMustPlaceShipOnOwnBoard), Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (a.getShipsPlaced() < 4)
+                    if (a.placeShip(v.getId(), true)) {
+                        Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                if (a.getShipsPlaced() == 4) {
+                    beginPlaceShipsB();
+                    if (!vsHuman) {
+                        while (b.getShipsPlaced() < 4)
+                            b.placeShip(rand.nextInt(gridSize * gridSize) + gridSize * gridSize, rand.nextBoolean());
+                        current = ButtonAction.A_SHOOTING;
+                        status.setText(R.string.key_strPlrOneShoot);
+                    }
+                }
+                break;
+            case B_PLACING:
+                if (!isB) {
+                    Toast.makeText(this, getString(R.string.key_strMustPlaceShipOnOwnBoard), Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (b.getShipsPlaced() < 4)
+                    if (b.placeShip(v.getId(), true)) {
+                        Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                if (b.getShipsPlaced() == 4) {
+                    current = ButtonAction.A_SHOOTING;
+                    status.setText(getString(R.string.key_strPlrOneShoot));
+                }
+                break;
+            default:
+                Toast.makeText(this, R.string.key_strLongPressAfterPlace, Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
     // Most actual game logic is here (and in Player)
     private void btnOnClick(View v) {
-        @SuppressLint("ResourceType") final boolean isB = v.getId() > gridSize*gridSize - 1;
+        final boolean isB = ((View) (v.getParent())).getId() == R.id.gridB;
 
         switch (current) {
             case A_PLACING:
@@ -123,14 +169,14 @@ public class GameActivity extends AppCompatActivity {
                     return;
                 }
                 if (a.getShipsPlaced() < 4)
-                    if (a.placeShip(v.getId())) {
+                    if (a.placeShip(v.getId(), false)) {
                         Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
                         return;
                     }
                 if (a.getShipsPlaced() == 4) {
                     beginPlaceShipsB();
                     if (!vsHuman) {
-                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize) + gridSize*gridSize);
+                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize) + gridSize*gridSize, rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }
@@ -142,7 +188,7 @@ public class GameActivity extends AppCompatActivity {
                     return;
                 }
                 if (b.getShipsPlaced() < 4)
-                    if (b.placeShip(v.getId())) {
+                    if (b.placeShip(v.getId(), false)) {
                         Toast.makeText(this, getString(R.string.key_strCantPlaceThere), Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -186,8 +232,7 @@ public class GameActivity extends AppCompatActivity {
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
                     int next = rand.nextInt(gridSize*gridSize);
-                    // 0 - not determined, -1 - left, 1 - right
-                    int direction = 0;
+                    Direction direction = Direction.UNDETERMINED;
 
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
@@ -224,8 +269,20 @@ public class GameActivity extends AppCompatActivity {
                                 playExp();
                                 break;
                             default:
-                                if (direction == 0) direction = rand.nextInt(2) == 0 ? -1 : 1;
-                                if (next > 0 && next < gridSize*gridSize-1) next += direction;
+                                if (direction == Direction.UNDETERMINED) direction = Direction.values()[rand.nextInt(Direction.values().length)];
+                                switch (direction) {
+                                    case UP:
+                                        if (next - gridSize > 0) next -= gridSize;
+                                        break;
+                                    case DOWN:
+                                        if (next + gridSize < gridSize*gridSize) next += gridSize;
+                                        break;
+                                    case LEFT:
+                                        if (next > 0) next--;
+                                        break;
+                                    case RIGHT:
+                                        if (next < gridSize*gridSize) next++;
+                                }
                                 playExp();
                         }
                     }

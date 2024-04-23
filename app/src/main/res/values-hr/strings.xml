@@ -29,4 +29,5 @@
     <string name="key_strHumanWon">Porazio si računalo, čestitke!</string>
     <string name="key_strComputerWon">Računalo te porazilo, više sreće drugi put!</string>
     <string name="key_strUnderConstruction">Ovdje zasad nema ništa…</string>
+    <string name="key_strLongPressAfterPlace">Dugi pritisak se koristi samo za postavljanje brodova uspravno!</string>
 </resources>
