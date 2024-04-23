@@ -45,8 +45,8 @@ public class GameActivity extends AppCompatActivity {
 
         current = ButtonAction.NOTHING;
 
-        a = new Player(findViewById(R.id.gridA), false);
-        b = new Player(findViewById(R.id.gridB), true);
+        a = new Player(findViewById(R.id.gridA));
+        b = new Player(findViewById(R.id.gridB));
 
         rand = new Random();
 
@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
             tv.setOnLongClickListener(this::btnOnLongClick);
             a.addTv(tv);
         }
-        for (int i = gridSize*gridSize; i < 2*gridSize*gridSize; i++) {
+        for (int i = 0; i < gridSize*gridSize; i++) {
             TextView tv = new TextView(this);
             tv.setId(i);
             tv.setText("B");
@@ -131,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
                     beginPlaceShipsB();
                     if (!vsHuman) {
                         while (b.getShipsPlaced() < 4)
-                            b.placeShip(rand.nextInt(gridSize * gridSize) + gridSize * gridSize, rand.nextBoolean());
+                            b.placeShip(rand.nextInt(gridSize * gridSize), rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }
@@ -176,7 +176,7 @@ public class GameActivity extends AppCompatActivity {
                 if (a.getShipsPlaced() == 4) {
                     beginPlaceShipsB();
                     if (!vsHuman) {
-                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize) + gridSize*gridSize, rand.nextBoolean());
+                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize), rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }

@@ -12,10 +12,9 @@ public class Player {
     private int shipsPlaced;
     private final GridLayout grid;
     private final char[] board;
-    private final boolean isB;
     private static final int g = GameActivity.gridSize;
 
-    public Player(GridLayout grid, boolean isB) {
+    public Player(GridLayout grid) {
         gunboatLeft = 2;
         destroyerLeft = 3;
         battleshipLeft = 4;
@@ -28,7 +27,6 @@ public class Player {
         this.grid = grid;
         this.grid.setColumnCount(g);
         this.grid.setRowCount(g);
-        this.isB = isB;
     }
 
     protected boolean lost() {
@@ -78,8 +76,6 @@ public class Player {
     protected HitResult shoot(int i) {
         TextView v = grid.findViewById(i);
 
-        if (i >= g * g) i -= g * g;
-
         switch (board[i]) {
             case '1':
                 hitGunboat();
@@ -119,8 +115,6 @@ public class Player {
     private boolean placeShipHorizontal(int i) {
         switch (getShipsPlaced()) {
             case 0: {
-                if (isB) i -= g * g;
-
                 if (i / g < (i + 1) / g)
                     return true;
 
@@ -130,7 +124,6 @@ public class Player {
                 board[i] = '1';
                 board[i+1] = '1';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i+2; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("1");
@@ -138,8 +131,6 @@ public class Player {
                 break;
             }
             case 1: {
-                if (isB) i -= g * g;
-
                 if (i / g < (i + 2) / g)
                     return true;
 
@@ -150,7 +141,6 @@ public class Player {
                 board[i+1] = '2';
                 board[i+2] = '2';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i+3; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("2");
@@ -158,8 +148,6 @@ public class Player {
                 break;
             }
             case 2: {
-                if (isB) i -= g * g;
-
                 if (i / g < (i + 3) / g)
                     return true;
 
@@ -171,7 +159,6 @@ public class Player {
                 board[i+2] = '3';
                 board[i+3] = '3';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i+4; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("3");
@@ -179,8 +166,6 @@ public class Player {
                 break;
             }
             case 3: {
-                if (isB) i -= g * g;
-
                 if (i / g < (i + 4) / g)
                     return true;
 
@@ -193,16 +178,10 @@ public class Player {
                 board[i+3] = '4';
                 board[i+4] = '4';
 
-                if (isB)
-                    for (int j = g * g; j < 2 * g * g; j++) {
-                        TextView v = grid.findViewById(j);
-                        v.setText("?");
-                    }
-                else
-                    for (int j = 0; j < g * g; j++) {
-                        TextView v = grid.findViewById(j);
-                        v.setText("?");
-                    }
+                for (int j = 0; j < g * g; j++) {
+                    TextView v = grid.findViewById(j);
+                    v.setText("?");
+                }
                 break;
             }
             default:
@@ -215,8 +194,6 @@ public class Player {
     private boolean placeShipVertical(int i) {
         switch (getShipsPlaced()) {
             case 0: {
-                if (isB) i -= g * g;
-
                 if (i + g > g * g)
                     return true;
 
@@ -226,7 +203,6 @@ public class Player {
                 board[i] = '1';
                 board[i+ g] = '1';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i+2 * g; j += g) {
                     TextView v = grid.findViewById(j);
                     v.setText("1");
@@ -234,8 +210,6 @@ public class Player {
                 break;
             }
             case 1: {
-                if (isB) i -= g * g;
-
                 if (i + 2* g > g * g)
                     return true;
 
@@ -246,7 +220,6 @@ public class Player {
                 board[i+ g] = '2';
                 board[i+2* g] = '2';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i + 3 * g; j += g) {
                     TextView v = grid.findViewById(j);
                     v.setText("2");
@@ -254,8 +227,6 @@ public class Player {
                 break;
             }
             case 2: {
-                if (isB) i -= g * g;
-
                 if (i + 3 * g > g * g)
                     return true;
 
@@ -267,7 +238,6 @@ public class Player {
                 board[i+2* g] = '3';
                 board[i+3* g] = '3';
 
-                if (isB) i += g * g;
                 for (int j = i; j < i + 4 * g; j += g) {
                     TextView v = grid.findViewById(j);
                     v.setText("3");
@@ -275,8 +245,6 @@ public class Player {
                 break;
             }
             case 3: {
-                if (isB) i -= g * g;
-
                 if (i + 4 * g > g * g)
                     return true;
 
@@ -289,16 +257,10 @@ public class Player {
                 board[i+3*g] = '4';
                 board[i+4*g] = '4';
 
-                if (isB)
-                    for (int j = g * g; j < 2 * g * g; j++) {
-                        TextView v = grid.findViewById(j);
-                        v.setText("?");
-                    }
-                else
-                    for (int j = 0; j < g * g; j++) {
-                        TextView v = grid.findViewById(j);
-                        v.setText("?");
-                    }
+                for (int j = 0; j < g * g; j++) {
+                    TextView v = grid.findViewById(j);
+                    v.setText("?");
+                }
                 break;
             }
             default:
