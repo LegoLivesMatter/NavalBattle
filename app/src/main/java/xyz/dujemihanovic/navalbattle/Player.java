@@ -33,7 +33,9 @@ public class Player {
         return gunboatLeft == 0 && destroyerLeft == 0 && battleshipLeft == 0 && carrierLeft == 0;
     }
 
-    protected int getGunboatLeft() { return gunboatLeft; }
+    protected int getGunboatLeft() {
+        return gunboatLeft;
+    }
 
     protected int getDestroyerLeft() {
         return destroyerLeft;
@@ -46,7 +48,10 @@ public class Player {
     protected int getCarrierLeft() {
         return carrierLeft;
     }
-    protected int getShipsPlaced() { return shipsPlaced; }
+
+    protected int getShipsPlaced() {
+        return shipsPlaced;
+    }
 
     protected void hitGunboat() {
         if (gunboatLeft > 0) gunboatLeft--;
@@ -70,6 +75,7 @@ public class Player {
 
     /**
      * Shoot at this player's field.
+     *
      * @param i The ID of the hit TextView
      * @return HitResult.HIT if hit, destruction, MISS if miss, INVALID if tried to shoot at already shot field
      */
@@ -110,7 +116,9 @@ public class Player {
         }
     }
 
-    protected void addTv(TextView tv) { grid.addView(tv); }
+    protected void addTv(TextView tv) {
+        grid.addView(tv);
+    }
 
     private boolean placeShipHorizontal(int i) {
         switch (getShipsPlaced()) {
@@ -118,13 +126,13 @@ public class Player {
                 if (i / g < (i + 1) / g)
                     return true;
 
-                if (board[i] != 'B' || board[i+1] != 'B')
+                if (board[i] != 'B' || board[i + 1] != 'B')
                     return true;
 
                 board[i] = '1';
-                board[i+1] = '1';
+                board[i + 1] = '1';
 
-                for (int j = i; j < i+2; j++) {
+                for (int j = i; j < i + 2; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("1");
                 }
@@ -134,14 +142,14 @@ public class Player {
                 if (i / g < (i + 2) / g)
                     return true;
 
-                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B')
+                if (board[i] != 'B' || board[i + 1] != 'B' || board[i + 2] != 'B')
                     return true;
 
                 board[i] = '2';
-                board[i+1] = '2';
-                board[i+2] = '2';
+                board[i + 1] = '2';
+                board[i + 2] = '2';
 
-                for (int j = i; j < i+3; j++) {
+                for (int j = i; j < i + 3; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("2");
                 }
@@ -151,15 +159,15 @@ public class Player {
                 if (i / g < (i + 3) / g)
                     return true;
 
-                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B')
+                if (board[i] != 'B' || board[i + 1] != 'B' || board[i + 2] != 'B' || board[i + 3] != 'B')
                     return true;
 
                 board[i] = '3';
-                board[i+1] = '3';
-                board[i+2] = '3';
-                board[i+3] = '3';
+                board[i + 1] = '3';
+                board[i + 2] = '3';
+                board[i + 3] = '3';
 
-                for (int j = i; j < i+4; j++) {
+                for (int j = i; j < i + 4; j++) {
                     TextView v = grid.findViewById(j);
                     v.setText("3");
                 }
@@ -169,14 +177,14 @@ public class Player {
                 if (i / g < (i + 4) / g)
                     return true;
 
-                if (board[i] != 'B' || board[i+1] != 'B' || board[i+2] != 'B' || board[i+3] != 'B' || board[i+4] != 'B')
+                if (board[i] != 'B' || board[i + 1] != 'B' || board[i + 2] != 'B' || board[i + 3] != 'B' || board[i + 4] != 'B')
                     return true;
 
                 board[i] = '4';
-                board[i+1] = '4';
-                board[i+2] = '4';
-                board[i+3] = '4';
-                board[i+4] = '4';
+                board[i + 1] = '4';
+                board[i + 2] = '4';
+                board[i + 3] = '4';
+                board[i + 4] = '4';
 
                 for (int j = 0; j < g * g; j++) {
                     TextView v = grid.findViewById(j);
@@ -197,28 +205,28 @@ public class Player {
                 if (i + g > g * g)
                     return true;
 
-                if (board[i] != 'B' || board[i+ g] != 'B')
+                if (board[i] != 'B' || board[i + g] != 'B')
                     return true;
 
                 board[i] = '1';
-                board[i+ g] = '1';
+                board[i + g] = '1';
 
-                for (int j = i; j < i+2 * g; j += g) {
+                for (int j = i; j < i + 2 * g; j += g) {
                     TextView v = grid.findViewById(j);
                     v.setText("1");
                 }
                 break;
             }
             case 1: {
-                if (i + 2* g > g * g)
+                if (i + 2 * g > g * g)
                     return true;
 
-                if (board[i] != 'B' || board[i+ g] != 'B' || board[i+2* g] != 'B')
+                if (board[i] != 'B' || board[i + g] != 'B' || board[i + 2 * g] != 'B')
                     return true;
 
                 board[i] = '2';
-                board[i+ g] = '2';
-                board[i+2* g] = '2';
+                board[i + g] = '2';
+                board[i + 2 * g] = '2';
 
                 for (int j = i; j < i + 3 * g; j += g) {
                     TextView v = grid.findViewById(j);
@@ -230,13 +238,13 @@ public class Player {
                 if (i + 3 * g > g * g)
                     return true;
 
-                if (board[i] != 'B' || board[i+ g] != 'B' || board[i+2* g] != 'B' || board[i+3* g] != 'B')
+                if (board[i] != 'B' || board[i + g] != 'B' || board[i + 2 * g] != 'B' || board[i + 3 * g] != 'B')
                     return true;
 
                 board[i] = '3';
-                board[i+ g] = '3';
-                board[i+2* g] = '3';
-                board[i+3* g] = '3';
+                board[i + g] = '3';
+                board[i + 2 * g] = '3';
+                board[i + 3 * g] = '3';
 
                 for (int j = i; j < i + 4 * g; j += g) {
                     TextView v = grid.findViewById(j);
@@ -248,14 +256,14 @@ public class Player {
                 if (i + 4 * g > g * g)
                     return true;
 
-                if (board[i] != 'B' || board[i+g] != 'B' || board[i+2*g] != 'B' || board[i+3*g] != 'B' || board[i+4*g] != 'B')
+                if (board[i] != 'B' || board[i + g] != 'B' || board[i + 2 * g] != 'B' || board[i + 3 * g] != 'B' || board[i + 4 * g] != 'B')
                     return true;
 
                 board[i] = '4';
-                board[i+g] = '4';
-                board[i+2*g] = '4';
-                board[i+3*g] = '4';
-                board[i+4*g] = '4';
+                board[i + g] = '4';
+                board[i + 2 * g] = '4';
+                board[i + 3 * g] = '4';
+                board[i + 4 * g] = '4';
 
                 for (int j = 0; j < g * g; j++) {
                     TextView v = grid.findViewById(j);
@@ -272,6 +280,7 @@ public class Player {
 
     /**
      * Place a ship at a field.
+     *
      * @param i The ID of the TextView
      * @return true if the ship was placed, false otherwise
      */

@@ -55,7 +55,7 @@ public class GameActivity extends AppCompatActivity {
         // create board dynamically with GridLayout, perhaps can be replaced with RecyclerView?
         status = findViewById(R.id.tvStatus);
 
-        for (int i = 0; i < gridSize*gridSize; i++) {
+        for (int i = 0; i < gridSize * gridSize; i++) {
             TextView tv = new TextView(this);
             tv.setId(i);
             tv.setText("B");
@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
             tv.setOnLongClickListener(this::btnOnLongClick);
             a.addTv(tv);
         }
-        for (int i = 0; i < gridSize*gridSize; i++) {
+        for (int i = 0; i < gridSize * gridSize; i++) {
             TextView tv = new TextView(this);
             tv.setId(i);
             tv.setText("B");
@@ -176,7 +176,8 @@ public class GameActivity extends AppCompatActivity {
                 if (a.getShipsPlaced() == 4) {
                     beginPlaceShipsB();
                     if (!vsHuman) {
-                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize), rand.nextBoolean());
+                        while (b.getShipsPlaced() < 4)
+                            b.placeShip(rand.nextInt(gridSize * gridSize), rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }
@@ -231,14 +232,14 @@ public class GameActivity extends AppCompatActivity {
                 // bot logic is here
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
-                    int next = rand.nextInt(gridSize*gridSize);
+                    int next = rand.nextInt(gridSize * gridSize);
                     Direction direction = Direction.UNDETERMINED;
 
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
                         if (plr != null)
-                            while (plr.isPlaying());
+                            while (plr.isPlaying()) ;
 
                         switch (a.shoot(next)) {
                             case MISS:
@@ -246,42 +247,43 @@ public class GameActivity extends AppCompatActivity {
                                 playSplash();
                                 break;
                             case INVALID:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 break;
                             case CARRIER_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strCarrierSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case BATTLESHIP_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strBattleshipSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case DESTROYER_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strDestroyerSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case GUNBOAT_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strGunboatSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             default:
-                                if (direction == Direction.UNDETERMINED) direction = Direction.values()[rand.nextInt(Direction.values().length)];
+                                if (direction == Direction.UNDETERMINED)
+                                    direction = Direction.values()[rand.nextInt(Direction.values().length)];
                                 switch (direction) {
                                     case UP:
                                         if (next - gridSize > 0) next -= gridSize;
                                         break;
                                     case DOWN:
-                                        if (next + gridSize < gridSize*gridSize) next += gridSize;
+                                        if (next + gridSize < gridSize * gridSize) next += gridSize;
                                         break;
                                     case LEFT:
                                         if (next > 0) next--;
                                         break;
                                     case RIGHT:
-                                        if (next < gridSize*gridSize) next++;
+                                        if (next < gridSize * gridSize) next++;
                                 }
                                 playExp();
                         }
