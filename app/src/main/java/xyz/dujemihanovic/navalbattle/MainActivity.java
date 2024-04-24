@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         options = findViewById(R.id.btnOptions);
         options.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setClass(this, OptionsActivity.class);
+            intent.setClass(this, StatsActivity.class);
             startActivity(intent);
         });
 

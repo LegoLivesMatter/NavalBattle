@@ -1,6 +1,7 @@
 package xyz.dujemihanovic.navalbattle;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     MediaPlayer plr;
     boolean vsHuman;
     Random rand;
+    SharedPreferences pref;
 
     private void beginPlaceShipsB() {
         current = ButtonAction.B_PLACING;
@@ -43,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
             return insets;
         });
 
+        pref = getApplicationContext().getSharedPreferences("stats", MODE_PRIVATE);
         current = ButtonAction.NOTHING;
 
         a = new Player(findViewById(R.id.gridA));
@@ -325,12 +328,30 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if (a.lost()) {
+            if (!vsHuman) {
+                int losses = pref.getInt("losses", 0);
+                SharedPreferences.Editor edit = pref.edit();
+
+                losses++;
+                edit.putInt("losses", losses);
+                edit.apply();
+            }
+
             AlertDialog.Builder build = new AlertDialog.Builder(this);
             build.setTitle(R.string.key_strGameOver);
             build.setMessage(vsHuman ? R.string.key_strCongratsTwo : R.string.key_strComputerWon);
             build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         } else if (b.lost()) {
+            if (!vsHuman) {
+                int wins = pref.getInt("wins", 0);
+                SharedPreferences.Editor edit = pref.edit();
+
+                wins++;
+                edit.putInt("wins", wins);
+                edit.apply();
+            }
+
             AlertDialog.Builder build = new AlertDialog.Builder(this);
             build.setTitle(R.string.key_strGameOver);
             build.setMessage(vsHuman ? R.string.key_strCongratsOne : R.string.key_strHumanWon);
