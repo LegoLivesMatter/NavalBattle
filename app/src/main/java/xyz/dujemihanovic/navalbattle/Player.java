@@ -74,6 +74,19 @@ public class Player {
     }
 
     /**
+     * Reveal a ship.
+     *
+     * @param ship The number of the ship to reveal
+     */
+    private void revealShip(char ship) {
+        for (int i = 0; i < g * g; i++)
+            if (board[i] == ship) {
+                TextView v = grid.findViewById(i);
+                v.setText(String.valueOf(ship));
+            }
+    }
+
+    /**
      * Shoot at this player's field.
      *
      * @param i The ID of the hit TextView
@@ -85,30 +98,28 @@ public class Player {
         switch (board[i]) {
             case '1':
                 hitGunboat();
-                board[i] = 'D';
                 v.setText("D");
-                if (getGunboatLeft() == 0) return HitResult.GUNBOAT_DESTROYED;
-                return HitResult.HIT;
+                if (getGunboatLeft() != 0) return HitResult.HIT;
+                revealShip('1');
+                return HitResult.GUNBOAT_DESTROYED;
             case '2':
                 hitDestroyer();
-                board[i] = 'D';
                 v.setText("D");
-                if (getDestroyerLeft() == 0) return HitResult.DESTROYER_DESTROYED;
-                return HitResult.HIT;
+                if (getDestroyerLeft() != 0) return HitResult.HIT;
+                revealShip('2');
+                return HitResult.DESTROYER_DESTROYED;
             case '3':
                 hitBattleship();
-                board[i] = 'D';
                 v.setText("D");
-                if (getBattleshipLeft() == 0) return HitResult.BATTLESHIP_DESTROYED;
-                return HitResult.HIT;
+                if (getBattleshipLeft() != 0) return HitResult.HIT;
+                revealShip('3');
+                return HitResult.BATTLESHIP_DESTROYED;
             case '4':
                 hitCarrier();
-                board[i] = 'D';
                 v.setText("D");
-                if (getCarrierLeft() == 0) return HitResult.CARRIER_DESTROYED;
-                return HitResult.HIT;
+                if (getCarrierLeft() != 0) return HitResult.HIT;
+                return HitResult.CARRIER_DESTROYED;
             case 'B':
-                board[i] = 'M';
                 v.setText("M");
                 return HitResult.MISS;
             default:
