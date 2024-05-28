@@ -1,6 +1,7 @@
 package xyz.dujemihanovic.navalbattle;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     MediaPlayer plr;
     boolean vsHuman;
     Random rand;
+    SharedPreferences pref;
 
     private void beginPlaceShipsB() {
         current = ButtonAction.B_PLACING;
@@ -43,10 +45,11 @@ public class GameActivity extends AppCompatActivity {
             return insets;
         });
 
+        pref = getApplicationContext().getSharedPreferences("stats", MODE_PRIVATE);
         current = ButtonAction.NOTHING;
 
-        a = new Player(findViewById(R.id.gridA), false);
-        b = new Player(findViewById(R.id.gridB), true);
+        a = new Player(findViewById(R.id.gridA));
+        b = new Player(findViewById(R.id.gridB));
 
         rand = new Random();
 
@@ -55,7 +58,7 @@ public class GameActivity extends AppCompatActivity {
         // create board dynamically with GridLayout, perhaps can be replaced with RecyclerView?
         status = findViewById(R.id.tvStatus);
 
-        for (int i = 0; i < gridSize*gridSize; i++) {
+        for (int i = 0; i < gridSize * gridSize; i++) {
             TextView tv = new TextView(this);
             tv.setId(i);
             tv.setText("B");
@@ -67,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
             tv.setOnLongClickListener(this::btnOnLongClick);
             a.addTv(tv);
         }
-        for (int i = gridSize*gridSize; i < 2*gridSize*gridSize; i++) {
+        for (int i = 0; i < gridSize * gridSize; i++) {
             TextView tv = new TextView(this);
             tv.setId(i);
             tv.setText("B");
@@ -131,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
                     beginPlaceShipsB();
                     if (!vsHuman) {
                         while (b.getShipsPlaced() < 4)
-                            b.placeShip(rand.nextInt(gridSize * gridSize) + gridSize * gridSize, rand.nextBoolean());
+                            b.placeShip(rand.nextInt(gridSize * gridSize), rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }
@@ -176,7 +179,8 @@ public class GameActivity extends AppCompatActivity {
                 if (a.getShipsPlaced() == 4) {
                     beginPlaceShipsB();
                     if (!vsHuman) {
-                        while (b.getShipsPlaced() < 4) b.placeShip(rand.nextInt(gridSize*gridSize) + gridSize*gridSize, rand.nextBoolean());
+                        while (b.getShipsPlaced() < 4)
+                            b.placeShip(rand.nextInt(gridSize * gridSize), rand.nextBoolean());
                         current = ButtonAction.A_SHOOTING;
                         status.setText(R.string.key_strPlrOneShoot);
                     }
@@ -231,14 +235,14 @@ public class GameActivity extends AppCompatActivity {
                 // bot logic is here
                 if (!vsHuman && current == ButtonAction.B_SHOOTING) {
                     boolean keepShooting = true;
-                    int next = rand.nextInt(gridSize*gridSize);
+                    int next = rand.nextInt(gridSize * gridSize);
                     Direction direction = Direction.UNDETERMINED;
 
                     current = ButtonAction.A_SHOOTING;
                     status.setText(getString(R.string.key_strPlrTwoShoot));
                     while (keepShooting) {
                         if (plr != null)
-                            while (plr.isPlaying());
+                            while (plr.isPlaying()) ;
 
                         switch (a.shoot(next)) {
                             case MISS:
@@ -246,42 +250,43 @@ public class GameActivity extends AppCompatActivity {
                                 playSplash();
                                 break;
                             case INVALID:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 break;
                             case CARRIER_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strCarrierSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case BATTLESHIP_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strBattleshipSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case DESTROYER_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strDestroyerSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             case GUNBOAT_DESTROYED:
-                                next = rand.nextInt(gridSize*gridSize);
+                                next = rand.nextInt(gridSize * gridSize);
                                 Toast.makeText(this, getString(R.string.key_strGunboatSunk), Toast.LENGTH_SHORT).show();
                                 playExp();
                                 break;
                             default:
-                                if (direction == Direction.UNDETERMINED) direction = Direction.values()[rand.nextInt(Direction.values().length)];
+                                if (direction == Direction.UNDETERMINED)
+                                    direction = Direction.values()[rand.nextInt(Direction.values().length)];
                                 switch (direction) {
                                     case UP:
                                         if (next - gridSize > 0) next -= gridSize;
                                         break;
                                     case DOWN:
-                                        if (next + gridSize < gridSize*gridSize) next += gridSize;
+                                        if (next + gridSize < gridSize * gridSize) next += gridSize;
                                         break;
                                     case LEFT:
                                         if (next > 0) next--;
                                         break;
                                     case RIGHT:
-                                        if (next < gridSize*gridSize) next++;
+                                        if (next < gridSize * gridSize) next++;
                                 }
                                 playExp();
                         }
@@ -323,12 +328,30 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if (a.lost()) {
+            if (!vsHuman) {
+                int losses = pref.getInt("losses", 0);
+                SharedPreferences.Editor edit = pref.edit();
+
+                losses++;
+                edit.putInt("losses", losses);
+                edit.apply();
+            }
+
             AlertDialog.Builder build = new AlertDialog.Builder(this);
             build.setTitle(R.string.key_strGameOver);
             build.setMessage(vsHuman ? R.string.key_strCongratsTwo : R.string.key_strComputerWon);
             build.setPositiveButton(R.string.ok, (dialog, which) -> finish());
             build.show();
         } else if (b.lost()) {
+            if (!vsHuman) {
+                int wins = pref.getInt("wins", 0);
+                SharedPreferences.Editor edit = pref.edit();
+
+                wins++;
+                edit.putInt("wins", wins);
+                edit.apply();
+            }
+
             AlertDialog.Builder build = new AlertDialog.Builder(this);
             build.setTitle(R.string.key_strGameOver);
             build.setMessage(vsHuman ? R.string.key_strCongratsOne : R.string.key_strHumanWon);

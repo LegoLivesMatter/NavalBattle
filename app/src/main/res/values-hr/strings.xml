@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Pomorska bitka</string>
     <string name="key_btnPlay">Igraj</string>
-    <string name="key_btnOptions">Opcije</string>
+    <string name="key_btnStats">Statistike</string>
     <string name="key_btnExit">Izađi</string>
     <string name="key_btnBack">Nazad</string>
     <string name="key_txtSelectMode">Odaberi način igre</string>
@@ -28,6 +28,8 @@
     <string name="key_strCongratsTwo">Čestitke igraču 2 na pobjedi!</string>
     <string name="key_strHumanWon">Porazio si računalo, čestitke!</string>
     <string name="key_strComputerWon">Računalo te porazilo, više sreće drugi put!</string>
-    <string name="key_strUnderConstruction">Ovdje zasad nema ništa…</string>
+    <string name="key_strBotLosses">Gubitci protiv računala:%1$d</string>
     <string name="key_strLongPressAfterPlace">Dugi pritisak se koristi samo za postavljanje brodova uspravno!</string>
+    <string name="key_strBotWins">Pobjede protiv računala: %1$d</string>
+    <string name="key_strWLR">Omjer pobjede/gubitci: %1$f</string>
 </resources>

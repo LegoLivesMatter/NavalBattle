@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Naval Battle</string>
     <string name="key_btnPlay">Play</string>
-    <string name="key_btnOptions">Options</string>
+    <string name="key_btnStats">Stats</string>
     <string name="key_btnExit">Exit</string>
     <string name="key_btnBack">Back</string>
     <string name="key_txtSelectMode">Select gamemode</string>
@@ -28,6 +28,8 @@
     <string name="key_strHumanWon">You defeated the computer, congratulations!</string>
     <string name="key_strComputerWon">The computer defeat you, better luck next time!</string>
     <string name="ok" translatable="false">OK</string>
-    <string name="key_strUnderConstruction">Nothing to see here for now…</string>
+    <string name="key_strBotLosses">Losses against computer: %1$d</string>
     <string name="key_strLongPressAfterPlace">Long press is only used for placing ships vertically!</string>
+    <string name="key_strBotWins">Wins against computer: %1$d</string>
+    <string name="key_strWLR">Win/loss ratio: %1$f</string>
 </resources>
